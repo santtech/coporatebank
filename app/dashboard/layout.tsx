@@ -1,0 +1,23 @@
+import type React from "react"
+import { redirect } from "next/navigation"
+import { getCurrentUser } from "@/lib/auth"
+import UserSidebar from "@/components/dashboard/user-sidebar"
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  return (
+    <div className="flex min-h-screen bg-[#F4F6FA] text-slate-900 selection:bg-orange-500/20">
+      <UserSidebar user={user} />
+      <main className="flex-1 overflow-y-auto min-w-0">{children}</main>
+    </div>
+  )
+}
