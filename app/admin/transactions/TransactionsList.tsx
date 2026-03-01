@@ -12,6 +12,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { formatCurrency } from "@/lib/utils/banking"
 import { Badge } from "@/components/ui/badge"
+import UserActions from "@/components/admin/user-actions"
 
 interface Transaction {
   _id: string
@@ -297,6 +298,12 @@ export default function TransactionsList({
                         {new Date(transaction.createdAt).toLocaleDateString()}
                       </div>
                     </div>
+
+                    {isAdmin && transaction.userId && (
+                      <div className="flex items-center" onClick={(e) => e.preventDefault()}>
+                        <UserActions userId={transaction.userId} />
+                      </div>
+                    )}
                   </div>
 
                   {/* Decorative background number/ID */}
@@ -365,6 +372,6 @@ export default function TransactionsList({
           </div>
         )}
       </div>
-    </div>
+    </div >
   )
 }

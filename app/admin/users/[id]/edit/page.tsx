@@ -12,6 +12,7 @@ import { ArrowLeft, Save, User as UserIcon, ShieldCheck, Globe, CreditCard, Mail
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Switch } from "@/components/ui/switch"
+import UserActions from "@/components/admin/user-actions"
 
 export default function AdminEditUserPage() {
   const router = useRouter()
@@ -149,6 +150,7 @@ export default function AdminEditUserPage() {
           </div>
         </div>
         <div className="flex gap-3">
+          <UserActions userId={params.id} />
           <Button
             onClick={onSave}
             disabled={saving}

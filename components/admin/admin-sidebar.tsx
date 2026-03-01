@@ -64,7 +64,7 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-black tracking-tighter text-slate-900 leading-none">
-                  FIRST<span className="text-orange-600 italic">STATE</span>
+                  CORPORATE<span className="text-orange-600 italic">BANK</span>
                 </span>
                 <span className="text-[9px] font-black tracking-[0.3em] text-slate-400 mt-0.5 uppercase">Admin Panel</span>
               </div>

@@ -27,6 +27,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { formatCurrency } from "@/lib/utils/banking"
 import { cn } from "@/lib/utils"
+import UserActions from "@/components/admin/user-actions"
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
@@ -180,21 +181,24 @@ export default function AdminDashboardPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className={cn(
-                        "text-xl font-black tracking-tighter italic",
-                        tx.txType === 'credit' ? 'text-emerald-600' : 'text-slate-900'
-                      )}>
-                        {tx.txType === 'credit' ? '+' : '-'}{formatCurrency(tx.amount, tx.currency || 'USD')}
-                      </p>
-                      <Badge className={cn(
-                        "mt-1 text-[8px] font-black uppercase tracking-[0.2em] border-none shadow-sm",
-                        tx.status === 'success' ? 'bg-emerald-500/10 text-emerald-500 px-2' :
-                          tx.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500 px-2' :
-                            'bg-red-500/10 text-red-500 px-2'
-                      )}>
-                        {tx.status}
-                      </Badge>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className={cn(
+                          "text-xl font-black tracking-tighter italic",
+                          tx.txType === 'credit' ? 'text-emerald-600' : 'text-slate-900'
+                        )}>
+                          {tx.txType === 'credit' ? '+' : '-'}{formatCurrency(tx.amount, tx.currency || 'USD')}
+                        </p>
+                        <Badge className={cn(
+                          "mt-1 text-[8px] font-black uppercase tracking-[0.2em] border-none shadow-sm",
+                          tx.status === 'success' ? 'bg-emerald-500/10 text-emerald-500 px-2' :
+                            tx.status === 'pending' ? 'bg-yellow-500/10 text-yellow-500 px-2' :
+                              'bg-red-500/10 text-red-500 px-2'
+                        )}>
+                          {tx.status}
+                        </Badge>
+                      </div>
+                      {tx.userId && <UserActions userId={tx.userId.toString()} />}
                     </div>
                   </div>
                 ))

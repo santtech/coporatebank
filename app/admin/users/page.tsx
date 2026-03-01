@@ -27,7 +27,7 @@ async function getUsers(searchQuery?: string) {
   }
 
   const users = await User.find(query)
-    .select("email bankInfo bankBalance bankNumber bankAccount roles registerTime profileImage")
+    .select("email bankInfo bankBalance bankNumber bankAccount roles registerTime profileImage usercode")
     .sort({ registerTime: -1 })
     .limit(100)
 
@@ -43,6 +43,7 @@ async function getUsers(searchQuery?: string) {
     profileImage: user.profileImage,
     roles: user.roles,
     registerTime: user.registerTime,
+    usercode: user.usercode,
   }))
 }
 
@@ -124,6 +125,7 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
             <tr className="border-b border-slate-100 bg-slate-50 text-xs font-black uppercase tracking-widest text-slate-500">
               <th className="px-6 py-4">Customer</th>
               <th className="px-6 py-4">Contact & Account</th>
+              <th className="px-6 py-4">User Code</th>
               <th className="px-6 py-4">Balance</th>
               <th className="px-6 py-4">Status</th>
               <th className="px-6 py-4 text-right">Actions</th>
@@ -171,6 +173,11 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
                         <CreditCard className="w-3.5 h-3.5" /> {user.bankNumber}
                       </div>
                     </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Badge variant="outline" className="font-mono text-orange-600 border-orange-200 bg-orange-50/50 px-3 py-1 rounded-lg font-black tracking-widest">
+                      {user.usercode}
+                    </Badge>
                   </td>
                   <td className="px-6 py-4">
                     <p className="text-lg font-black text-slate-900 tracking-tighter italic">

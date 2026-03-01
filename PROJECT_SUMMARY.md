@@ -116,7 +116,7 @@
 
 #### Admin Access
 
-- Email: `admin@danamonbk.com`
+- Email: `admin@corporateb.online`
 - Password: `Admin@123456`
 - PIN: `1234`
 

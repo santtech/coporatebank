@@ -162,87 +162,71 @@ export default function UserActions({ userId }: UserActionsProps) {
 
   return (
     <>
-      <div className="relative">
-        <Button
-          variant="outline"
-          ref={(node) => setActiveBtn(node)}
-          onClick={toggleMenu}
-          className="h-9 px-4 rounded-xl bg-white border border-slate-200 hover:border-orange-500 hover:text-orange-600 text-slate-700 shadow-sm transition-all gap-2 font-black uppercase tracking-widest text-xs relative z-[40]"
-        >
-          <Cpu className="h-3.5 w-3.5" /> Actions
-        </Button>
-
-        {menuOpen && (
-          <Portal.Root>
-            <div
-              className="fixed inset-0 z-[100]"
-              onClick={(e) => {
-                e.stopPropagation()
-                setMenuOpen(false)
-              }}
-            />
-            <div
-              ref={menuRef}
-              className="w-52 bg-white border border-slate-200 rounded-2xl p-2 shadow-xl z-[101] animate-in fade-in zoom-in-95 duration-200 fixed"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => handleAction("view")}
-                className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-orange-600 hover:bg-orange-50 transition-all text-left group"
-              >
-                <div className="h-7 w-7 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 group-hover:bg-orange-600 group-hover:text-white transition-all flex-shrink-0">
-                  <Edit className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-black uppercase tracking-widest">Edit Customer</span>
-              </button>
-
-              <div className="h-px bg-slate-100 mx-2 my-1.5" />
-
-              <button
-                onClick={() => handleAction("credit")}
-                className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all group text-left"
-              >
-                <div className="h-7 w-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all flex-shrink-0">
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-black uppercase tracking-widest">Add Funds</span>
-              </button>
-
-              <button
-                onClick={() => handleAction("debit")}
-                className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 transition-all group text-left"
-              >
-                <div className="h-7 w-7 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all flex-shrink-0">
-                  <ArrowDownLeft className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-black uppercase tracking-widest">Deduct Funds</span>
-              </button>
-
-              <div className="h-px bg-slate-100 mx-2 my-1.5" />
-
-              <button
-                onClick={() => handleAction("approve")}
-                className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all text-left group"
-              >
-                <div className="h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all flex-shrink-0">
-                  <CheckCircle className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-black uppercase tracking-widest">Verify Account</span>
-              </button>
-
-              <button
-                onClick={() => handleAction("delete")}
-                className="w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-red-500 hover:text-white hover:bg-red-500 transition-all text-left group"
-              >
-                <div className="h-7 w-7 rounded-lg bg-red-50 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all flex-shrink-0">
-                  <Trash2 className="h-3.5 w-3.5" />
-                </div>
-                <span className="text-xs font-black uppercase tracking-widest">Delete Account</span>
-              </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="h-9 px-4 rounded-xl bg-white border border-slate-200 hover:border-orange-500 hover:text-orange-600 text-slate-700 shadow-sm transition-all gap-2 font-black uppercase tracking-widest text-xs relative z-[40]"
+          >
+            <Cpu className="h-3.5 w-3.5" /> Actions
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52 bg-white border border-slate-200 rounded-2xl p-2 shadow-xl z-[101]">
+          <DropdownMenuItem
+            onClick={() => handleAction("view")}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-orange-600 hover:bg-orange-50 transition-all cursor-pointer group"
+          >
+            <div className="h-7 w-7 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 group-hover:bg-orange-600 group-hover:text-white transition-all flex-shrink-0">
+              <Edit className="h-3.5 w-3.5" />
             </div>
-          </Portal.Root>
-        )}
-      </div>
+            <span className="text-xs font-black uppercase tracking-widest">Edit Customer</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator className="bg-slate-100 mx-2 my-1.5" />
+
+          <DropdownMenuItem
+            onClick={() => handleAction("credit")}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition-all cursor-pointer group"
+          >
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all flex-shrink-0">
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest">Add Funds</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => handleAction("debit")}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 transition-all cursor-pointer group"
+          >
+            <div className="h-7 w-7 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all flex-shrink-0">
+              <ArrowDownLeft className="h-3.5 w-3.5" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest">Deduct Funds</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator className="bg-slate-100 mx-2 my-1.5" />
+
+          <DropdownMenuItem
+            onClick={() => handleAction("approve")}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all cursor-pointer group"
+          >
+            <div className="h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all flex-shrink-0">
+              <CheckCircle className="h-3.5 w-3.5" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest">Verify Account</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => handleAction("delete")}
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-red-500 hover:text-white hover:bg-red-500 transition-all cursor-pointer group"
+          >
+            <div className="h-7 w-7 rounded-lg bg-red-50 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all flex-shrink-0">
+              <Trash2 className="h-3.5 w-3.5" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-widest">Delete Account</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <Dialog open={txOpen} onOpenChange={setTxOpen}>
         <DialogContent className="sm:max-w-md bg-white border-slate-200 text-slate-900 rounded-2xl overflow-hidden p-0 shadow-xl">

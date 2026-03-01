@@ -85,7 +85,7 @@ export default function SecurityPage() {
                                 </TableHeader>
                                 <TableBody>
                                     {[
-                                        { id: "EVT-8921", action: "Login", user: "admin@danamonbk.com", status: "Success", time: "2 min ago", statusColor: "emerald" },
+                                        { id: "EVT-8921", action: "Login", user: "admin@corporateb.online", status: "Success", time: "2 min ago", statusColor: "emerald" },
                                         { id: "EVT-8920", action: "Password Change", user: "user_492", status: "Success", time: "15 min ago", statusColor: "emerald" },
                                         { id: "EVT-8919", action: "Large Transfer", user: "user_gate_9", status: "Blocked", time: "1 hr ago", statusColor: "red" },
                                         { id: "EVT-8918", action: "API Key Generated", user: "dev_node", status: "Success", time: "3 hr ago", statusColor: "blue" },
