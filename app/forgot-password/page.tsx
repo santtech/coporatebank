@@ -114,7 +114,7 @@ export default function ForgotPasswordPage() {
                                         required
                                         disabled={isLoading}
                                         className="h-14 pl-12 bg-white border-slate-200 rounded-2xl text-slate-900 focus:border-orange-500/50 focus:ring-orange-500/20 transition-all font-medium placeholder:text-slate-300"
-                                        placeholder="identity_anchor@firststatebank.online"
+                                        placeholder="identity_anchor@corporateb.online"
                                     />
                                 </div>
                             </div>

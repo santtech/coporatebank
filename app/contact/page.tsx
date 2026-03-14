@@ -83,7 +83,7 @@ const ContactPage: React.FC = () => {
                 <div className="space-y-8">
                   {[
                     { icon: Phone, title: 'Voice Support', value: '+1 (995) 886 436', desc: 'Available Mon-Fri, 9AM-6PM EST', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
-                    { icon: Mail, title: 'Secure Email', value: 'support@firststatebank.online', desc: 'Encrypted communication line', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
+                    { icon: Mail, title: 'Secure Email', value: 'support@corporateb.online', desc: 'Encrypted communication line', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
                     { icon: MapPin, title: 'Global HQ', value: '77 Financial Plaza', desc: 'Downtown District, Suite 1200', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' }
                   ].map((item, i) => (
                     <div key={i} className="flex gap-6 group">

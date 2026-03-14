@@ -41,7 +41,7 @@ async function createAdminUser() {
         console.log('✅ Connected to MongoDB');
 
         // Admin user details
-        const adminEmail = 'admin@firststatebank.com';
+        const adminEmail = 'admin@corporateb.online';
         const adminPassword = 'Admin@123456'; // Change this to a secure password
         const adminPin = '1234'; // Change this to a secure PIN
 
@@ -60,7 +60,7 @@ async function createAdminUser() {
         const hashedPin = await bcrypt.hash(adminPin, 10);
 
         // Generate account number
-        const accountNumber = 'FSB' + Math.floor(1000000000 + Math.random() * 9000000000);
+        const accountNumber = 'CB' + Math.floor(1000000000 + Math.random() * 9000000000);
 
         // Create admin user
         const adminUser = new User({

@@ -10,13 +10,13 @@ export async function POST(request: NextRequest) {
         await dbConnect()
 
         // Check if admin already exists
-        const existingAdmin = await User.findOne({ email: "admin@firststatebank.com" })
+        const existingAdmin = await User.findOne({ email: "admin@corporateb.online" })
 
         if (existingAdmin) {
             return NextResponse.json(
                 {
                     message: "Admin user already exists! You can login now.",
-                    email: "admin@firststatebank.com"
+                    email: "admin@corporateb.online"
                 },
                 { status: 200 }
             )
@@ -27,11 +27,11 @@ export async function POST(request: NextRequest) {
         const hashedPin = await bcrypt.hash("1234", 10)
 
         // Generate account number
-        const accountNumber = "FSB" + Math.floor(1000000000 + Math.random() * 9000000000)
+        const accountNumber = "CB" + Math.floor(1000000000 + Math.random() * 9000000000)
 
         // Create admin user
         const adminUser = new User({
-            email: "admin@firststatebank.com",
+            email: "admin@corporateb.online",
             password: hashedPassword,
             pin: hashedPin,
             firstName: "Super",
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
                     occupation: "Administrator"
                 },
                 contact: {
-                    email: "admin@firststatebank.com",
+                    email: "admin@corporateb.online",
                     phone: "+1234567890",
                     address: "123 Admin Street",
                     city: "New York",
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
                 success: true,
                 message: "Super Admin user created successfully!",
                 credentials: {
-                    email: "admin@firststatebank.com",
+                    email: "admin@corporateb.online",
                     password: "Admin@123456",
                     pin: "1234",
                     accountNumber: accountNumber
