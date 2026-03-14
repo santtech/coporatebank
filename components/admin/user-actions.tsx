@@ -82,7 +82,7 @@ export default function UserActions({ userId }: UserActionsProps) {
         alert(j?.message || "Transaction failed.")
       }
     } catch (err) {
-      console.error("[DANAMON BANK] admin tx error:", err)
+      console.error("[CORPORATE BANK] admin tx error:", err)
       alert("System error during transaction.")
     } finally {
       setIsLoading(false)

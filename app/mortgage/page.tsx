@@ -24,7 +24,7 @@ const MortgagePage: React.FC = () => {
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-12">
-            Secure your dream home with our smart mortgage framework. Whether you are a first-time buyer or seeking leverage for high-value properties, DANAMON BANK provides the most advanced solutions in the market.
+            Secure your dream home with our smart mortgage framework. Whether you are a first-time buyer or seeking leverage for high-value properties, CORPORATE BANK provides the most advanced solutions in the market.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20 relative z-20">

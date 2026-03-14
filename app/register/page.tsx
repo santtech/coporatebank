@@ -101,7 +101,7 @@ export default function RegisterPage() {
               ACCOUNT <span className="text-orange-600">REGISTRATION</span>
             </h1>
             <p className="text-sm md:text-base text-slate-500 font-black uppercase tracking-widest opacity-60 max-w-md mx-auto italic leading-relaxed">
-              Creating a new secure account within the <span className="text-orange-600 font-black">DANAMON</span> banking system.
+              Creating a new secure account within the <span className="text-orange-600 font-black">CORPORATE</span> banking system.
             </p>
           </div>
         </div>
@@ -306,7 +306,7 @@ export default function RegisterPage() {
         {/* Legal Cipher */}
         <div className="mt-10 text-center opacity-20 hover:opacity-100 transition-opacity">
           <p className="text-[8px] font-black text-slate-500 uppercase tracking-[0.5em] leading-relaxed">
-            By creating an account, you agree to the DANAMON BANK Terms of Service and Privacy Policy.
+            By creating an account, you agree to the CORPORATE BANK Terms of Service and Privacy Policy.
           </p>
         </div>
       </div>

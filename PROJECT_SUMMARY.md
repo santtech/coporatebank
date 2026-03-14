@@ -8,7 +8,7 @@
 
 ### Production URL
 
-**<https://novabank-rose.vercel.app/>**
+**<https://www.corporateb.online/>**
 
 ### Latest Deployment
 
@@ -225,7 +225,7 @@ Complete session summary and accomplishments
 
 - **Platform**: Vercel
 - **Auto-Deploy**: GitHub integration
-- **Domain**: novabank-rose.vercel.app
+- **Domain**: corporateb.online
 
 ---
 
@@ -310,9 +310,9 @@ Complete session summary and accomplishments
 
 ### Useful Links
 
-- **Live Site**: <https://novabank-rose.vercel.app/>
+- **Live Site**: <https://www.corporateb.online/>
 - **Vercel Dashboard**: <https://vercel.com/dashboard>
-- **GitHub Repo**: <https://github.com/abiamuwedestiny43-design/novabank>
+- **GitHub Repo**: <https://github.com/santtech/coporatebank>
 - **MongoDB Atlas**: <https://cloud.mongodb.com/>
 
 ### Quick Commands
@@ -398,7 +398,7 @@ Your Corporate Bank application is now a fully-functional, professional banking 
 
 **The platform is live and ready for users!**
 
-Visit: **<https://novabank-rose.vercel.app/>**
+Visit: **<https://www.corporateb.online/>**
 
 ---
 

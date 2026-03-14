@@ -30,7 +30,7 @@ Your Corporate Bank application has been successfully deployed to Vercel!
 2. **Visit**: <https://novabank-rose.vercel.app/setup-admin>
 3. **Click**: "Create Super Admin" button
 4. **Save the credentials** displayed on screen:
-   - Email: `admin@danamonbk.com`
+   - Email: `admin@corporateb.online`
    - Password: `Admin@123456`
    - PIN: `1234`
    - Account Number: (will be generated)
@@ -38,7 +38,7 @@ Your Corporate Bank application has been successfully deployed to Vercel!
 ### Step 2: Login to Admin Dashboard
 
 1. Go to: <https://novabank-rose.vercel.app/login>
-2. Enter email: `admin@danamonbk.com`
+2. Enter email: `admin@corporateb.online`
 3. Enter password: `Admin@123456`
 4. Enter PIN: `1234`
 5. You'll be redirected to: <https://novabank-rose.vercel.app/admin>
@@ -187,9 +187,9 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=banknova674@gmail.com
 SMTP_PASS=ckpmgqmwyslyzehg
-SMTP_FROM=support@danamonbk.com
-ADMIN_EMAIL=support@danamonbk.com
-BASE_URL=https://www.danamonbk.com
+SMTP_FROM=support@corporateb.online
+ADMIN_EMAIL=support@corporateb.online
+BASE_URL=https://www.corporateb.online
 ```
 
 **Note**: These should already be set in your Vercel project settings.

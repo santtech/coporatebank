@@ -24,7 +24,7 @@ const AboutPage: React.FC = () => {
             </span>
           </h1>
           <p className="text-sm md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed mb-12 animate-slide-up font-bold uppercase tracking-widest opacity-60">
-            For over five decades, DANAMON BANK has been more than just a financial institution — we have been a trusted partner in helping individuals, families, and businesses grow and secure their future.
+            For over five decades, CORPORATE BANK has been more than just a financial institution — we have been a trusted partner in helping individuals, families, and businesses grow and secure their future.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-slate-100">
@@ -69,7 +69,7 @@ const AboutPage: React.FC = () => {
               </h2>
               <div className="space-y-6 text-slate-600 leading-relaxed text-sm md:text-lg font-bold uppercase tracking-widest opacity-60">
                 <p>
-                  At DANAMON BANK, we believe that finance is not just about numbers — it's about people. That's why we focus on building genuine relationships with our customers, offering personalized solutions designed to meet their unique needs.
+                  At CORPORATE BANK, we believe that finance is not just about numbers — it's about people. That's why we focus on building genuine relationships with our customers, offering personalized solutions designed to meet their unique needs.
                 </p>
                 <p>
                   Whether it's securing your first home, planning for retirement, or growing a business, our team is here to support you every step of the way. With a foundation built on trust, innovation, and sustainability, we are committed to creating opportunities.
@@ -120,7 +120,7 @@ const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20 text-slate-900">
             <p className="text-xs font-black tracking-[0.5em] uppercase text-orange-600 mb-4">Core Principles</p>
-            <h2 className="text-3xl md:text-6xl font-black tracking-tighter uppercase text-slate-900 italic">DANAMON <span className="text-orange-600">Standards</span></h2>
+            <h2 className="text-3xl md:text-6xl font-black tracking-tighter uppercase text-slate-900 italic">CORPORATE <span className="text-orange-600">Standards</span></h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

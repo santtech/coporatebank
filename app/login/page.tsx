@@ -113,7 +113,7 @@ export default function LoginPage() {
           </div>
           <div className="space-y-1">
             <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase italic">
-              DANAMON<span className="text-orange-600">BANK</span>
+              CORPORATE<span className="text-orange-600">BANK</span>
             </h1>
             <p className="text-sm md:text-base text-orange-600/50 font-black uppercase tracking-[0.4em] italic opacity-80">Secure Banking Platform</p>
           </div>

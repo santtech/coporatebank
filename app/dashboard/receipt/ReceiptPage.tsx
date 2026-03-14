@@ -80,10 +80,10 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       doc.setFont("helvetica", "bold")
       doc.setFontSize(24)
       doc.setTextColor(255, 255, 255)
-      doc.text("DANAMON", margin, 25)
+      doc.text("CORPORATE", margin, 25)
       doc.setFont("helvetica", "normal")
       doc.setTextColor(255, 255, 255)
-      doc.text("BANK", margin + 45, 25)
+      doc.text("BANK", margin + 60, 25)
 
       doc.setFontSize(10)
       doc.setTextColor(99, 102, 241)

@@ -11,7 +11,7 @@ The Admin Dashboard is a comprehensive control center for managing the entire ba
 ### Login Credentials
 
 - **URL**: `http://localhost:3000/login`
-- **Email**: `admin@danamonbk.com`
+- **Email**: `admin@corporateb.online`
 - **Password**: `Admin@123456`
 - **PIN**: `1234`
 
@@ -386,7 +386,7 @@ All services show operational status with health percentages:
 
 For technical support or questions:
 
-- **Email**: <admin@danamonbk.com>
+- **Email**: <admin@corporateb.online>
 - **Dashboard**: <http://localhost:3000/admin>
 - **Documentation**: This file
 

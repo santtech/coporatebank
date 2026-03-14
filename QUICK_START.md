@@ -2,7 +2,7 @@
 
 ## 📍 Your Live Site
 
-**<https://novabank-rose.vercel.app/>**
+**<https://www.corporateb.online/>**
 
 ---
 
@@ -11,7 +11,7 @@
 ### 1️⃣ Create Admin Account (Do This First!)
 
 ```
-🔗 Visit: https://novabank-rose.vercel.app/setup-admin
+🔗 Visit: https://www.corporateb.online/setup-admin
 👆 Click: "Create Super Admin"
 📝 Save the credentials shown
 ```
@@ -19,8 +19,8 @@
 ### 2️⃣ Login to Admin Dashboard
 
 ```
-🔗 Visit: https://novabank-rose.vercel.app/login
-📧 Email: admin@danamonbk.com
+🔗 Visit: https://www.corporateb.online/login
+📧 Email: admin@corporateb.online
 🔑 Password: Admin@123456
 📌 PIN: 1234
 ```
@@ -86,6 +86,6 @@ git push origin master
 ## 🎉 You're Live
 
 Your banking platform is now accessible worldwide at:
-**<https://novabank-rose.vercel.app/>**
+**<https://www.corporateb.online/>**
 
 Start by creating your admin account! 🚀
