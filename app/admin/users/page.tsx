@@ -48,7 +48,7 @@ async function getUsers(searchQuery?: string) {
 
 export default async function UsersPage({ searchParams }: { searchParams: { search?: string } }) {
   return (
-    <div className="min-h-screen bg-[#F4F6FA] p-4 md:p-8 lg:p-12 pt-20 md:pt-28 space-y-6">
+    <div className="min-h-screen bg-[#F4F6FA] p-4 md:p-8 lg:p-12 pb-32 pt-20 md:pt-28 space-y-6">
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -89,7 +89,7 @@ export default async function UsersPage({ searchParams }: { searchParams: { sear
         </form>
       </div>
 
-      {/* Customers Table */}
+      {/* Customers Table container - Removed overflow-hidden to prevent clipping of shadows/focus states */}
       <Suspense fallback={
         <div className="flex flex-col items-center justify-center p-16 gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm">
           <Activity className="w-8 h-8 text-orange-600 animate-spin" />
@@ -106,7 +106,7 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
   const users = await getUsers(searchQuery)
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100">
       <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-xl font-black text-slate-900 tracking-tighter italic">
@@ -118,8 +118,87 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
           <p className="text-xs font-black text-orange-600 uppercase tracking-widest">{users.length} Total</p>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+
+      {/* Mobile/Tablet View: Card-based layout */}
+      <div className="lg:hidden divide-y divide-slate-100 px-4">
+        {users.length > 0 ? (
+          users.map((user) => (
+            <div key={user.id} className="py-6 space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="relative shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-100 border-2 border-slate-200 flex items-center justify-center text-slate-900 font-black text-lg overflow-hidden">
+                      {user.profileImage ? (
+                        <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                      ) : (
+                        user.name[0]
+                      )}
+                    </div>
+                    <div className={cn("absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white", user.verified ? "bg-emerald-500" : "bg-red-500")}></div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <Link href={`/admin/users/${user.id}`} className="block text-sm font-black text-slate-900 hover:text-orange-600 transition-colors truncate">
+                      {user.name}
+                    </Link>
+                    <div className="flex flex-wrap gap-1.5 mt-1 overflow-hidden">
+                      {user.roles.map((role) => (
+                        <Badge key={role} className="bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-black uppercase tracking-widest px-2 py-0.5">
+                          {role}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  <UserActions userId={user.id} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
+                <div className="space-y-1 min-w-0">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact</p>
+                  <p className="font-medium text-slate-600 truncate">{user.email}</p>
+                </div>
+                <div className="space-y-1 min-w-0">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Balance</p>
+                  <p className="font-black text-slate-900 italic truncate">{formatCurrency(user.balance, user.currency)}</p>
+                </div>
+                <div className="space-y-1 min-w-0">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Account</p>
+                  <p className="font-black text-orange-600 tracking-widest truncate">{user.bankNumber}</p>
+                </div>
+                <div className="space-y-1 min-w-0">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Code</p>
+                  <p className="font-mono text-orange-600 font-bold tracking-widest truncate">{user.usercode}</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 p-3 bg-slate-50 rounded-xl">
+                <div className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border shrink-0",
+                  user.verified ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-red-50 border-red-200 text-red-700"
+                )}>
+                  {user.verified ? <ShieldCheck className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+                  {user.verified ? "Verified" : "Unverified"}
+                </div>
+                <div className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border shrink-0",
+                  user.canTransfer ? "bg-blue-50 border-blue-200 text-blue-700" : "bg-white border-slate-200 text-slate-500"
+                )}>
+                  {user.canTransfer ? <Zap className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                  {user.canTransfer ? "Transfers On" : "Transfers Off"}
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="px-6 py-16 text-center text-slate-400 font-black uppercase tracking-widest text-sm italic">
+            {searchQuery ? `No customers found matching "${searchQuery}"` : "No customers found."}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop View: Table layout */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[1000px]">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50 text-xs font-black uppercase tracking-widest text-slate-500">
               <th className="px-6 py-4">Customer</th>
@@ -137,9 +216,9 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
                   key={user.id}
                   className="hover:bg-slate-50 transition-colors"
                 >
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 min-w-[200px]">
                     <div className="flex items-center gap-4">
-                      <div className="relative">
+                      <div className="relative shrink-0">
                         <div className="w-12 h-12 rounded-2xl bg-slate-100 border-2 border-slate-200 flex items-center justify-center text-slate-900 font-black text-lg overflow-hidden">
                           {user.profileImage ? (
                             <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
@@ -149,11 +228,11 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
                         </div>
                         <div className={cn("absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white", user.verified ? "bg-emerald-500" : "bg-red-500")}></div>
                       </div>
-                      <div>
-                        <Link href={`/admin/users/${user.id}`} className="block text-sm font-black text-slate-900 hover:text-orange-600 transition-colors">
+                      <div className="min-w-0">
+                        <Link href={`/admin/users/${user.id}`} className="block text-sm font-black text-slate-900 hover:text-orange-600 transition-colors truncate">
                           {user.name}
                         </Link>
-                        <div className="flex gap-1.5 mt-1">
+                        <div className="flex gap-1.5 mt-1 overflow-hidden">
                           {user.roles.map((role) => (
                             <Badge key={role} className="bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-black uppercase tracking-widest px-2 py-0.5">
                               {role}
@@ -163,27 +242,27 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-slate-500 font-medium">
+                  <td className="px-6 py-4 text-slate-500 font-medium min-w-[200px]">
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-2 text-xs">
-                        <Mail className="w-3.5 h-3.5 text-slate-400" /> {user.email}
+                      <div className="flex items-center gap-2 text-xs truncate">
+                        <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" /> {user.email}
                       </div>
-                      <div className="flex items-center gap-2 text-xs font-black text-orange-600 uppercase tracking-widest">
-                        <CreditCard className="w-3.5 h-3.5" /> {user.bankNumber}
+                      <div className="flex items-center gap-2 text-xs font-black text-orange-600 uppercase tracking-widest truncate">
+                        <CreditCard className="w-3.5 h-3.5 shrink-0" /> {user.bankNumber}
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 min-w-[120px]">
                     <Badge variant="outline" className="font-mono text-orange-600 border-orange-200 bg-orange-50/50 px-3 py-1 rounded-lg font-black tracking-widest">
                       {user.usercode}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="text-lg font-black text-slate-900 tracking-tighter italic">
+                  <td className="px-6 py-4 min-w-[150px]">
+                    <p className="text-lg font-black text-slate-900 tracking-tighter italic whitespace-nowrap">
                       {formatCurrency(user.balance, user.currency)}
                     </p>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 min-w-[180px]">
                     <div className="flex flex-col gap-1.5">
                       <div className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-black uppercase tracking-widest border w-fit",
                         user.verified
@@ -203,14 +282,14 @@ async function UsersTable({ searchQuery }: { searchQuery?: string }) {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right min-w-[240px]">
                     <UserActions userId={user.id} />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-6 py-16 text-center text-slate-400 font-black uppercase tracking-widest text-sm italic">
+                <td colSpan={6} className="px-6 py-16 text-center text-slate-400 font-black uppercase tracking-widest text-sm italic">
                   {searchQuery ? `No customers found matching "${searchQuery}"` : "No customers found."}
                 </td>
               </tr>

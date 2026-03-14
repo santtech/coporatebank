@@ -23,6 +23,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -289,9 +295,27 @@ export default function TransactionsList({
                       </p>
                     </td>
                     <td className="px-5 py-3.5">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400 group-hover:text-slate-600">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400 hover:text-orange-600 transition-colors">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48 bg-white border-slate-100 rounded-xl shadow-xl p-1.5 z-50">
+                          <DropdownMenuItem asChild className="rounded-lg py-2.5 px-3 focus:bg-orange-50 focus:text-orange-600 cursor-pointer group">
+                             <Link href={`/dashboard/receipt/${tx.txRef}`} className="flex items-center gap-2.5">
+                               <FileText className="h-4 w-4 text-slate-400 group-hover:text-orange-500" />
+                               <span className="text-xs font-black uppercase tracking-widest italic">View Receipt</span>
+                             </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild className="rounded-lg py-2.5 px-3 focus:bg-emerald-50 focus:text-emerald-600 cursor-pointer group mt-1">
+                             <Link href={`/dashboard/receipt/${tx.txRef}`} className="flex items-center gap-2.5">
+                               <Download className="h-4 w-4 text-slate-400 group-hover:text-emerald-500" />
+                               <span className="text-xs font-black uppercase tracking-widest italic">Download PDF</span>
+                             </Link>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </td>
                   </motion.tr>
                 ))

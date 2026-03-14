@@ -228,90 +228,95 @@ export default function TransactionsList({
         ) : (
           <div className="grid grid-cols-1 gap-6">
             {transactions.map((transaction) => (
-              <Link
+              <div
                 key={transaction._id}
-                href={isAdmin ? `/admin/transactions/${transaction._id}` : `/dashboard/receipt/${transaction.txRef}`}
-                className="group block"
+                className="group relative"
               >
-                <div className="p-8 rounded-[3rem] bg-slate-900/40 border border-white/5 group-hover:border-orange-600/50 group-hover:shadow-3xl transition-all duration-500 relative overflow-hidden glass-dark">
+                <div className="p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] bg-slate-900/40 border border-white/5 group-hover:border-orange-600/50 group-hover:shadow-3xl transition-all duration-500 relative overflow-hidden glass-dark">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-orange-600/5 group-hover:bg-orange-600/10 rounded-full blur-3xl -mr-16 -mt-16 transition-colors duration-500"></div>
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
-                    <div className="flex items-center gap-8">
+                  
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+                    {/* Linkable content area */}
+                    <Link
+                      href={isAdmin ? `/admin/transactions/${transaction._id}` : `/dashboard/receipt/${transaction.txRef}`}
+                      className="flex-1 flex flex-col md:flex-row md:items-center gap-6 md:gap-8"
+                    >
                       {/* Icon Cluster */}
-                      <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center shrink-0 border transition-all duration-500 group-hover:scale-110 shadow-sm ${transaction.txType === "credit"
+                      <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[1.2rem] md:rounded-[1.5rem] flex items-center justify-center shrink-0 border transition-all duration-500 group-hover:scale-110 shadow-sm ${transaction.txType === "credit"
                         ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500"
                         : "bg-orange-600 text-white shadow-xl shadow-orange-600/20 border-orange-500"
                         }`}>
                         {transaction.txType === "credit" ? (
-                          <ArrowDownLeft className="h-7 w-7" />
+                          <ArrowDownLeft className="h-6 w-6 md:h-7 md:w-7" />
                         ) : (
-                          <ArrowUpRight className="h-7 w-7" />
+                          <ArrowUpRight className="h-6 w-6 md:h-7 md:w-7" />
                         )}
                       </div>
 
                       {/* Info Cluster */}
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-4">
-                          <p className="font-black text-white uppercase tracking-tighter text-xl italic group-hover:text-orange-500 transition-colors">
+                      <div className="space-y-2 flex-1">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                          <p className="font-black text-white uppercase tracking-tighter text-lg md:text-xl italic group-hover:text-orange-500 transition-colors">
                             {transaction.txType === "credit" ? "Remittance Inflow" : "Logic Discharge"}
                           </p>
                           {getStatusBadge(transaction.status)}
                         </div>
-                        <div className="flex flex-wrap items-center gap-4">
-                          <span className="text-slate-500 font-mono tracking-widest text-[11px] font-black uppercase">REF_{transaction.txRef.toUpperCase()}</span>
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                          <span className="text-slate-500 font-mono tracking-widest text-[9px] md:text-[11px] font-black uppercase">REF_{transaction.txRef.toUpperCase()}</span>
                           {transaction.recipient && (
                             <>
-                              <div className="h-1.5 w-1.5 rounded-full bg-slate-800" />
-                              <span className="text-slate-400 font-black uppercase tracking-widest text-[10px]">
+                              <div className="hidden md:block h-1.5 w-1.5 rounded-full bg-slate-800" />
+                              <span className="text-slate-400 font-black uppercase tracking-widest text-[9px] md:text-[10px]">
                                 {transaction.bankName ? `${transaction.bankName} // ` : ""}{transaction.recipient}
                               </span>
                             </>
                           )}
                           {transaction.chargesType && (
                             <>
-                              <div className="h-1.5 w-1.5 rounded-full bg-slate-800" />
-                              <span className="text-orange-500 font-black uppercase tracking-[0.2em] text-[9px] italic border border-orange-500/20 px-2 py-0.5 rounded-md">
+                              <div className="hidden md:block h-1.5 w-1.5 rounded-full bg-slate-800" />
+                              <span className="text-orange-500 font-black uppercase tracking-[0.2em] text-[8px] md:text-[9px] italic border border-orange-500/20 px-2 py-0.5 rounded-md">
                                 {transaction.chargesType}
                               </span>
                             </>
                           )}
-                          {isAdmin && transaction.userName && (
-                            <>
-                              <div className="h-1.5 w-1.5 rounded-full bg-slate-800" />
-                              <p className="text-orange-600 font-black uppercase tracking-widest text-[10px] items-center gap-2 flex">
-                                <UserIcon className="w-3 h-3" /> {transaction.userName}
-                              </p>
-                            </>
-                          )}
+                        </div>
+                        {isAdmin && transaction.userName && (
+                          <div className="flex items-center gap-2 mt-1">
+                            <p className="text-orange-600 font-black uppercase tracking-widest text-[9px] md:text-[10px] items-center gap-2 flex">
+                              <UserIcon className="w-3 h-3" /> {transaction.userName}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+
+                    {/* Value Cluster & Actions */}
+                    <div className="flex flex-row lg:flex-col lg:items-end justify-between items-center gap-4 border-t border-white/5 lg:border-none pt-4 lg:pt-0">
+                      <div className="flex flex-col lg:items-end">
+                        <p className={`text-2xl md:text-3xl font-black tracking-tighter italic ${transaction.txType === "credit" ? "text-emerald-500" : "text-white"
+                          }`}>
+                          {transaction.txType === "credit" ? "+" : "-"}{formatCurrency(transaction.amount, transaction.currency)}
+                        </p>
+                        <div className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest italic">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(transaction.createdAt).toLocaleDateString()}
                         </div>
                       </div>
-                    </div>
 
-                    {/* Value Cluster */}
-                    <div className="flex items-center md:items-end flex-row md:flex-col justify-between md:justify-center gap-1 bg-black/40 md:bg-transparent p-4 md:p-0 rounded-2xl border border-white/5 md:border-none shadow-inner md:shadow-none">
-                      <p className={`text-3xl font-black tracking-tighter italic ${transaction.txType === "credit" ? "text-emerald-500" : "text-white"
-                        }`}>
-                        {transaction.txType === "credit" ? "+" : "-"}{formatCurrency(transaction.amount, transaction.currency)}
-                      </p>
-                      <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest italic">
-                        <Calendar className="w-3 h-3" />
-                        {new Date(transaction.createdAt).toLocaleDateString()}
-                      </div>
+                      {isAdmin && transaction.userId && (
+                        <div className="relative z-20">
+                          <UserActions userId={transaction.userId} />
+                        </div>
+                      )}
                     </div>
-
-                    {isAdmin && transaction.userId && (
-                      <div className="flex items-center" onClick={(e) => e.preventDefault()}>
-                        <UserActions userId={transaction.userId} />
-                      </div>
-                    )}
                   </div>
 
                   {/* Decorative background number/ID */}
-                  <div className="absolute right-[2%] bottom-[-10%] text-9xl font-black text-white/[0.02] pointer-events-none select-none italic group-hover:text-orange-600/[0.05] transition-colors duration-500">
+                  <div className="absolute right-[2%] bottom-[-5%] md:bottom-[-10%] text-7xl md:text-9xl font-black text-white/[0.02] pointer-events-none select-none italic group-hover:text-orange-600/[0.05] transition-colors duration-500">
                     {transaction.txRef.slice(-4)}
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
