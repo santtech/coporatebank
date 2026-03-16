@@ -82,7 +82,7 @@ const ContactPage: React.FC = () => {
                 <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-10 tracking-tight uppercase italic">Direct <span className="text-orange-600">Channels</span></h2>
                 <div className="space-y-8">
                   {[
-                    { icon: Phone, title: 'Voice Support', value: '+1 (995) 886 436', desc: 'Available Mon-Fri, 9AM-6PM EST', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
+                    { icon: Phone, title: 'Voice Support', value: '+1 5705794455', desc: 'Available Mon-Fri, 9AM-6PM EST', color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
                     { icon: Mail, title: 'Secure Email', value: 'support@corporateb.online', desc: 'Encrypted communication line', color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
                     { icon: MapPin, title: 'Global HQ', value: '77 Financial Plaza', desc: 'Downtown District, Suite 1200', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' }
                   ].map((item, i) => (
@@ -110,7 +110,7 @@ const ContactPage: React.FC = () => {
                   Our AI-driven support ecosystem is always active for immediate account verification and urgent security reports.
                 </p>
                 <div className="pt-4">
-                  <p className="text-3xl md:text-4xl font-black text-slate-900 underline decoration-orange-600 underline-offset-8 italic tracking-tighter">+1 (995) 886 436</p>
+                  <p className="text-3xl md:text-4xl font-black text-slate-900 underline decoration-orange-600 underline-offset-8 italic tracking-tighter">+1 5705794455</p>
                 </div>
               </div>
             </div>

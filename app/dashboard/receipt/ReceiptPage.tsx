@@ -41,6 +41,7 @@ interface ReceiptPageProps {
     routingCode?: string
     identifier?: string
     chargesType?: string
+    senderName?: string
   }
 }
 
@@ -167,6 +168,7 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       doc.text("Sender & Bank Info", margin, y)
       y += 10
 
+      y = addRow("Sender Name", transfer.senderName || "Unknown", y)
       y = addRow("Bank Name", "Corporate Bank", y)
       y = addRow("Reference No", transfer.txRef, y)
       y = addRow("Transfer Type", transfer.txRegion || "International", y)
@@ -290,6 +292,7 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
 
               <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 {[
+                  { label: "Sender Name", value: transfer.senderName || "Unknown", icon: User },
                   { label: "Account Holder", value: transfer.bankHolder, icon: User },
                   { label: "Target Bank", value: transfer.bankName, icon: Building },
                   { label: "Account Number", value: transfer.bankAccount, icon: Hash },

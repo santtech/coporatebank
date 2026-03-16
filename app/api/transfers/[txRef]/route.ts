@@ -18,6 +18,7 @@ export async function GET(_: NextRequest, { params }: { params: { txRef: string 
         amount: transfer.amount,
         currency: transfer.currency,
         accountHolder: transfer.accountHolder || transfer.bankHolder,
+        senderName: transfer.senderName,
         bankName: transfer.bankName,
         txRegion: transfer.txRegion,
         txStatus: transfer.txStatus,

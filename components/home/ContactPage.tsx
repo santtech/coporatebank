@@ -85,8 +85,8 @@ const ContactPage: React.FC = () => {
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold text-slate-900">Phone</h3>
-                      <p className="text-slate-600">Customer Support: +1 (555) 886 436</p>
-                      <p className="text-slate-600">Loan Department: +1 (555) 886 436</p>
+                      <p className="text-slate-600">Customer Support: +1 5705794455</p>
+                      <p className="text-slate-600">Loan Department: +1 5705794455</p>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -140,7 +140,7 @@ const ContactPage: React.FC = () => {
                 <p className="text-slate-600 mb-4">
                   For urgent account issues or to report a lost/stolen card, call our 24/7 hotline:
                 </p>
-                <div className="text-2xl font-bold text-orange-600">+1 (555) 886 436</div>
+                <div className="text-2xl font-bold text-orange-600">+1 5705794455</div>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@ const ContactPage: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 text-orange-600 mr-2 flex-shrink-0" />
-                  <span className="text-sm">+1 (555) 886 436</span>
+                  <span className="text-sm">+1 5705794455</span>
                 </div>
                 <div className="flex items-start">
                   <Clock className="w-5 h-5 text-orange-600 mr-2 mt-0.5 flex-shrink-0" />

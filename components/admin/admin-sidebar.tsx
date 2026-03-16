@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Users, CreditCard, ArrowLeftRight, Settings, LogOut, Menu, X, Banknote, Shield, BarChart3, Plug, Activity, Lock, Fingerprint } from "lucide-react"
+import { LayoutDashboard, Users, CreditCard, ArrowLeftRight, Settings, LogOut, Menu, X, Banknote, Shield, BarChart3, Plug, Activity, Lock, Fingerprint, ShieldCheck } from "lucide-react"
 import type { IUser } from "@/models/User"
 import Image from "next/image"
 
@@ -59,8 +59,8 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
           {/* Header/Logo */}
           <div className="p-6 pb-4 border-b border-slate-100">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative h-10 w-10 rounded-xl bg-orange-50 border border-orange-200 p-1.5 overflow-hidden">
-                <Image src="/logo.svg" alt="Logo" fill className="object-contain p-1" />
+              <div className="h-10 w-10 bg-orange-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-orange-600/20 flex-shrink-0">
+                <ShieldCheck className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-black tracking-tighter text-slate-900 leading-none">
