@@ -16,15 +16,19 @@ import {
   ShieldCheck,
   ChevronLeft,
   ArrowUpRight,
-  ArrowDownLeft,
-  FileText
+  FileText,
+  Zap,
+  XCircle,
+  Clock,
+  AlertTriangle
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
-interface ReceiptPageProps {
+interface AdminReceiptClientProps {
   transfer: {
+    _id: string
     txRef: string
     txDate: string
     amount: number
@@ -45,7 +49,7 @@ interface ReceiptPageProps {
   }
 }
 
-export default function ReceiptPage({ transfer }: ReceiptPageProps) {
+export default function AdminReceiptClient({ transfer }: AdminReceiptClientProps) {
   const formatCurrency = (value: number, currency = "USD") =>
     new Intl.NumberFormat(undefined, { style: "currency", currency }).format(
       value
@@ -112,9 +116,19 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       doc.setFont("helvetica", "bold")
       doc.text("TRANSFER STATUS:", margin + 8, y + 12)
 
-      doc.setTextColor(...colors.success)
+      // Let's use standard status based on txStatus
+      let statusText = transfer.txStatus.toUpperCase()
+      if (transfer.txStatus === "success") {
+        doc.setTextColor(...colors.success)
+        statusText = "COMPLETED & VERIFIED"
+      } else if (transfer.txStatus === "failed" || transfer.txStatus === "cancelled") {
+        doc.setTextColor(239, 68, 68) // Red
+      } else {
+        doc.setTextColor(234, 179, 8) // Yellow
+      }
+
       doc.setFontSize(11)
-      doc.text("COMPLETED & VERIFIED", margin + 55, y + 12)
+      doc.text(statusText, margin + 55, y + 12)
 
       doc.setFontSize(9)
       doc.setTextColor(...colors.textMuted)
@@ -231,6 +245,15 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
 
   const fadeIn = { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.3 } }
 
+  const statusMap = {
+    success: { color: "text-emerald-500", bg: "bg-emerald-50", border: "border-emerald-100", label: "Completed", icon: CheckCircle },
+    pending: { color: "text-yellow-600", bg: "bg-yellow-50", border: "border-yellow-200", label: "Pending", icon: Clock },
+    failed: { color: "text-red-500", bg: "bg-red-50", border: "border-red-100", label: "Failed", icon: XCircle },
+    cancelled: { color: "text-slate-500", bg: "bg-slate-100", border: "border-slate-200", label: "Cancelled", icon: AlertTriangle },
+  }
+
+  const status = statusMap[transfer.txStatus as keyof typeof statusMap] || statusMap.pending
+
   return (
     <div className="min-h-screen bg-[#F4F6FA] p-4 md:p-6 pt-16 lg:pt-6">
       <div className="max-w-4xl mx-auto space-y-5">
@@ -239,15 +262,15 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" asChild className="h-8 w-8 rounded-lg text-slate-500 hover:bg-white">
-              <Link href="/dashboard"><ChevronLeft className="h-4 w-4" /></Link>
+              <Link href="/admin/transactions"><ChevronLeft className="h-4 w-4" /></Link>
             </Button>
             <div>
               <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter italic">Transaction Receipt</h1>
               <p className="text-sm md:text-base text-slate-400 font-bold uppercase tracking-widest opacity-60">Official record for transfer {transfer.txRef}</p>
             </div>
           </div>
-          <Badge className="bg-emerald-50 text-emerald-600 border-emerald-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider hidden sm:flex">
-            Status: Completed
+          <Badge className={cn("px-3 py-1 text-[10px] font-bold uppercase tracking-wider hidden sm:flex", status.bg, status.color, status.border)}>
+            Status: {status.label}
           </Badge>
         </div>
 
@@ -257,10 +280,10 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
           <motion.div {...fadeIn} className="lg:col-span-8 space-y-5">
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
               <div className="p-6 md:p-8 flex flex-col items-center text-center border-b border-slate-50">
-                <div className="h-14 w-14 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-4 shadow-sm border border-emerald-100">
-                  <CheckCircle className="h-8 w-8" />
+                <div className={cn("h-14 w-14 rounded-full flex items-center justify-center mb-4 shadow-sm border", status.bg, status.color, status.border)}>
+                  <status.icon className="h-8 w-8" />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight italic">Transfer <span className="text-emerald-500">Successful</span></h2>
+                <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight italic">Transfer <span className={status.color}>{status.label}</span></h2>
                 <p className="text-[10px] md:text-xs text-slate-400 mt-2 uppercase tracking-widest font-black opacity-60">{new Date(transfer.txDate).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
 
                 <div className="mt-8">
@@ -287,7 +310,7 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
                       {item.label}
                     </p>
                     <p className={cn("text-sm md:text-base font-black text-slate-800 uppercase tracking-tight italic", item.mono && "font-mono text-xs md:text-sm tracking-normal not-italic")}>
-                      {item.value}
+                      {item.value || "N/A"}
                     </p>
                   </div>
                 ))}
@@ -341,30 +364,19 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
                   asChild
                   className="w-full h-12 border-slate-200 text-slate-700 font-black rounded-xl text-sm uppercase tracking-widest hover:bg-slate-50 transition-all italic"
                 >
-                  <Link href="/dashboard/transfer">
-                    <ArrowUpRight className="h-4 w-4 mr-2" />
-                    New Transfer
-                  </Link>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  asChild
-                  className="w-full h-12 border-slate-200 text-slate-700 font-black rounded-xl text-sm uppercase tracking-widest hover:bg-slate-50 transition-all italic"
-                >
-                  <Link href="/dashboard">
+                  <Link href="/admin/transactions">
                     <ChevronLeft className="h-4 w-4 mr-2" />
-                    Back to Home
+                    Back to Transactions
                   </Link>
                 </Button>
               </div>
             </div>
-
+            
             <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
               <div className="flex gap-3">
                 <Info className="h-4 w-4 text-orange-500 shrink-0 mt-0.5" />
                 <p className="text-[11px] text-orange-800 leading-relaxed">
-                  Need to report a problem with this transaction? Please contact our <Link href="/dashboard/support/chat-apps" className="underline font-bold">support team</Link> with your reference ID.
+                  As an administrator, you are viewing the same verified receipt format that the user receives upon transaction completion.
                 </p>
               </div>
             </div>
