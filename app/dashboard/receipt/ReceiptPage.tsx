@@ -168,12 +168,11 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       doc.text("Transaction Details", margin, y)
       y += 10
 
-      y = addRow("Reference ID", transfer.txRef, y)
-      y = addRow("Sending Account Name", transfer.senderName || "Unknown", y)
-      y = addRow("Receiving Account Name", transfer.bankHolder || "Unknown", y)
-      if (transfer.bankName) y = addRow("Target Bank", transfer.bankName, y)
-      if (transfer.bankAccount) y = addRow("Account Number", transfer.bankAccount, y)
-      y = addRow("Transfer Region", transfer.txRegion || "International", y)
+      y = addRow("Reference ID", transfer.txRef || "N/A", y)
+      y = addRow("Sending Account", transfer.senderName || "Corporate Bank User", y)
+      y = addRow("Receiving Account", transfer.bankHolder || "N/A", y)
+      y = addRow("Transaction Date", new Date(transfer.txDate).toLocaleDateString(), y)
+      y = addRow("Transaction Status", "SUCCESSFUL / VERIFIED", y)
 
       y += 10
       doc.setFontSize(12)
@@ -185,27 +184,33 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       y = addRow("Transfer Amount", formatCurrency(transfer.amount, transfer.currency), y)
       y = addRow("Service Fee", formatCurrency(transfer.txCharge || 0, transfer.currency), y)
 
+      // Total Row
+      y += 5
       doc.setFillColor(...colors.primary)
-      doc.roundedRect(margin, y - 2, usableWidth, 12, 1, 1, "F")
+      doc.roundedRect(margin, y, usableWidth, 14, 2, 2, "F")
       doc.setTextColor(255, 255, 255)
-      doc.setFontSize(10)
-      doc.text("TOTAL AMOUNT", margin + 5, y + 6)
-      doc.text(formatCurrency((transfer.amount || 0) + (transfer.txCharge || 0), transfer.currency), pageWidth - margin - 5, y + 6, { align: "right" })
-
+      doc.setFontSize(11)
+      doc.setFont("helvetica", "bold")
+      doc.text("TOTAL AMOUNT", margin + 8, y + 9)
+      doc.setFontSize(13)
+      doc.text(formatCurrency((transfer.amount || 0) + (transfer.txCharge || 0), transfer.currency), pageWidth - margin - 8, y + 9, { align: "right" })
       y += 25
 
       // === MEMO ===
-      if (transfer.txReason) {
-        doc.setFillColor(...colors.accent)
-        doc.roundedRect(margin, y, usableWidth, 20, 2, 2, "F")
+      if (transfer.txReason && transfer.txReason !== "N/A") {
+        y += 5
+        doc.setFillColor(248, 250, 252)
+        doc.roundedRect(margin, y, usableWidth, 25, 2, 2, "F")
         doc.setTextColor(...colors.textMuted)
         doc.setFontSize(8)
         doc.setFont("helvetica", "bold")
-        doc.text("DESCRIPTION:", margin + 5, y + 7)
+        doc.text("TRANSACTION MEMO:", margin + 5, y + 8)
         doc.setTextColor(...colors.text)
-        doc.setFontSize(9)
+        doc.setFontSize(10)
         doc.setFont("helvetica", "italic")
-        doc.text(`"${transfer.txReason}"`, margin + 5, y + 14)
+        const splitMemo = doc.splitTextToSize(`"${transfer.txReason}"`, usableWidth - 10)
+        doc.text(splitMemo, margin + 5, y + 15)
+        y += 30
       }
 
       // === FOOTER ===
@@ -236,17 +241,17 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
       <div className="max-w-4xl mx-auto space-y-5">
 
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" asChild className="h-8 w-8 rounded-lg text-slate-500 hover:bg-white">
+            <Button variant="ghost" size="icon" asChild className="h-8 w-8 rounded-lg text-slate-500 hover:bg-white shrink-0">
               <Link href="/dashboard"><ChevronLeft className="h-4 w-4" /></Link>
             </Button>
-            <div>
-              <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter italic">Transaction Receipt</h1>
-              <p className="text-sm md:text-base text-slate-400 font-bold uppercase tracking-widest opacity-60">Official record for transfer {transfer.txRef}</p>
+            <div className="min-w-0">
+              <h1 className="text-2xl md:text-5xl font-black text-slate-900 tracking-tighter italic truncate">Transaction Receipt</h1>
+              <p className="text-[10px] md:text-base text-slate-400 font-bold uppercase tracking-widest opacity-60 truncate">Official record for {transfer.txRef}</p>
             </div>
           </div>
-          <Badge className="bg-emerald-50 text-emerald-600 border-emerald-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider hidden sm:flex">
+          <Badge className="bg-emerald-50 text-emerald-600 border-emerald-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider w-fit">
             Status: Completed
           </Badge>
         </div>
@@ -265,28 +270,28 @@ export default function ReceiptPage({ transfer }: ReceiptPageProps) {
 
                 <div className="mt-8">
                   <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2 opacity-60">Amount Disbursed</p>
-                  <p className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter italic">
+                  <p className="text-4xl md:text-7xl font-black text-slate-900 tracking-tighter italic break-all">
                     {formatCurrency(transfer.amount, transfer.currency)}
                   </p>
                 </div>
               </div>
 
-              <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+              <div className="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                 {[
-                  { label: "Sending Account Name", value: transfer.senderName || "Unknown", icon: User },
-                  { label: "Receiving Account Name", value: transfer.bankHolder, icon: User },
-                  { label: "Target Bank", value: transfer.bankName, icon: Building },
-                  { label: "Account Number", value: transfer.bankAccount, icon: Hash },
-                  { label: "Transfer Region", value: transfer.txRegion, icon: Globe },
+                  { label: "Sending Account", value: transfer.senderName || "Corporate Bank User", icon: User },
+                  { label: "Receiving Account", value: transfer.bankHolder, icon: User },
                   { label: "Service Fee", value: formatCurrency(transfer.txCharge, transfer.currency), icon: DollarSign },
                   { label: "Reference ID", value: transfer.txRef, icon: FileText, mono: true },
                 ].map((item, i) => (
-                  <div key={i} className="space-y-1.5">
-                    <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 opacity-60">
-                      <item.icon className="h-3.5 w-3.5" />
-                      {item.label}
+                  <div key={i} className="space-y-1.5 min-w-0">
+                    <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 opacity-60 truncate">
+                      <item.icon className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{item.label}</span>
                     </p>
-                    <p className={cn("text-sm md:text-base font-black text-slate-800 uppercase tracking-tight italic", item.mono && "font-mono text-xs md:text-sm tracking-normal not-italic")}>
+                    <p className={cn(
+                      "text-sm md:text-base font-black text-slate-800 uppercase tracking-tight italic break-words",
+                      item.mono && "font-mono text-[10px] md:text-sm tracking-normal not-italic"
+                    )}>
                       {item.value}
                     </p>
                   </div>

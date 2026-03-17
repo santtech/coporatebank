@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/hooks/use-toast"
-import { ArrowLeft, Save, User as UserIcon, ShieldCheck, Globe, CreditCard, Mail, Phone, MapPin, Fingerprint, Zap, ShieldAlert, Cpu, RefreshCw, Activity, ChevronLeft } from "lucide-react"
+import { ArrowLeft, Save, User as UserIcon, ShieldCheck, Globe, CreditCard, Mail, Phone, MapPin, Fingerprint, Zap, ShieldAlert, Cpu, RefreshCw, Activity, ChevronLeft, Upload } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Switch } from "@/components/ui/switch"
@@ -46,6 +46,7 @@ export default function AdminEditUserPage() {
     canLocalTransfer: false,
     canInternationalTransfer: false,
     transferCodeRequired: true,
+    profileImage: "",
   })
 
   const onChange = (field: string, value: any) => setForm((p: any) => ({ ...p, [field]: value }))
@@ -82,6 +83,7 @@ export default function AdminEditUserPage() {
           canLocalTransfer: u.bankAccount?.canLocalTransfer || false,
           canInternationalTransfer: u.bankAccount?.canInternationalTransfer || false,
           transferCodeRequired: u.transferCodeRequired !== false,
+          profileImage: u.profileImage || "",
         })
         setRolesInput((Array.isArray(u.roles) ? u.roles : []).join(","))
       } catch (e) {
@@ -122,6 +124,28 @@ export default function AdminEditUserPage() {
     } finally {
       setSaving(false)
     }
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (!file.type.startsWith("image/")) {
+      toast({ variant: "destructive", title: "Invalid File", description: "Please upload an image file." })
+      return
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast({ variant: "destructive", title: "File Too Large", description: "Maximum image size is 2MB." })
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string
+      setForm((p: any) => ({ ...p, profileImage: base64 }))
+    }
+    reader.readAsDataURL(file)
   }
 
   if (loading) {
@@ -249,6 +273,58 @@ export default function AdminEditUserPage() {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-4 md:col-span-2 p-6 rounded-2xl bg-orange-50/30 border border-orange-100/50">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-1 flex items-center gap-2">
+                    <UserIcon className="w-3 h-3 text-orange-600" /> Account Avatar
+                  </Label>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Max 2MB • JPG/PNG</p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-6 items-center">
+                  <div className="relative group">
+                    <div className="h-24 w-24 rounded-3xl bg-white border-2 border-slate-200 flex-shrink-0 overflow-hidden flex items-center justify-center shadow-lg group-hover:border-orange-500 transition-all">
+                      {form.profileImage ? (
+                        <img src={form.profileImage} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <UserIcon className="w-8 h-8 text-slate-200" />
+                      )}
+                    </div>
+                    {form.profileImage && (
+                      <button 
+                        onClick={() => setForm((p:any) => ({...p, profileImage: ""}))}
+                        className="absolute -top-2 -right-2 h-7 w-7 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-600 shadow-sm transition-colors"
+                      >
+                        <RefreshCw className="h-3 w-3" />
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex-1 w-full space-y-3">
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="avatar-upload"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                      <Label
+                        htmlFor="avatar-upload"
+                        className="flex items-center justify-center gap-3 w-full h-14 border-2 border-dashed border-slate-200 hover:border-orange-500 hover:bg-orange-50/50 rounded-2xl cursor-pointer transition-all group"
+                      >
+                        <Upload className="w-4 h-4 text-slate-400 group-hover:text-orange-600" />
+                        <span className="text-xs font-black text-slate-500 group-hover:text-slate-900 uppercase tracking-widest">
+                          {form.profileImage ? "Change Avatar Image" : "Upload Profile Image"}
+                        </span>
+                      </Label>
+                    </div>
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed px-2">
+                       Selected images are converted to encrypted system strings and stored securely in the account profile.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>

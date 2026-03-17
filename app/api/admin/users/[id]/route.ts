@@ -36,6 +36,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         bankNumber: user.bankNumber,
         usercode: user.usercode,
         transferCodeRequired: user.transferCodeRequired,
+        profileImage: user.profileImage,
       },
     })
   } catch (error) {
@@ -84,6 +85,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     setIfExists("bankAccount.canInternationalTransfer", body.canInternationalTransfer)
     setIfExists("bankOtp.email", body.otpEmail)
     setIfExists("bankOtp.transferCode", body.otpTransferCode)
+    setIfExists("profileImage", body.profileImage)
 
     if (typeof body.transferCodeRequired !== "undefined") {
       $set["transferCodeRequired"] = body.transferCodeRequired === true || body.transferCodeRequired === "true"

@@ -264,12 +264,11 @@ export default function TransactionsList({
       doc.text("Transaction Details", margin, y)
       y += 10
 
-      y = addRow("Reference ID", transaction.txRef, y)
-      y = addRow("Sending Account Name", transaction.senderName || transaction.userName || "Unknown", y)
-      y = addRow("Receiving Account Name", transaction.recipient || "Unknown", y)
-      if (transaction.bankName) y = addRow("Target Bank", transaction.bankName, y)
-      if (transaction.bankAccount) y = addRow("Account Number", transaction.bankAccount, y)
-      y = addRow("Transfer Region", transaction.txRegion || "International", y)
+      y = addRow("Reference ID", transaction.txRef || "N/A", y)
+      y = addRow("Sending Account", transaction.senderName || transaction.userName || "Corporate Bank User", y)
+      y = addRow("Receiving Account", transaction.recipient || "N/A", y)
+      y = addRow("Transaction Date", new Date(transaction.createdAt).toLocaleDateString(), y)
+      y = addRow("Transaction Status", statusText, y)
 
       y += 10
       doc.setFontSize(12)
@@ -281,27 +280,33 @@ export default function TransactionsList({
       y = addRow("Transfer Amount", formatCurrency(transaction.amount, transaction.currency), y)
       y = addRow("Service Fee", formatCurrency(transaction.txCharge || 0, transaction.currency), y)
 
+      // Total Row
+      y += 5
       doc.setFillColor(...colors.primary)
-      doc.roundedRect(margin, y - 2, usableWidth, 12, 1, 1, "F")
+      doc.roundedRect(margin, y, usableWidth, 14, 2, 2, "F")
       doc.setTextColor(255, 255, 255)
-      doc.setFontSize(10)
-      doc.text("TOTAL AMOUNT", margin + 5, y + 6)
-      doc.text(formatCurrency((transaction.amount || 0) + (transaction.txCharge || 0), transaction.currency), pageWidth - margin - 5, y + 6, { align: "right" })
-
+      doc.setFontSize(11)
+      doc.setFont("helvetica", "bold")
+      doc.text("TOTAL AMOUNT", margin + 8, y + 9)
+      doc.setFontSize(13)
+      doc.text(formatCurrency((transaction.amount || 0) + (transaction.txCharge || 0), transaction.currency), pageWidth - margin - 8, y + 9, { align: "right" })
       y += 25
 
       // === MEMO ===
-      if (transaction.description) {
-        doc.setFillColor(...colors.accent)
-        doc.roundedRect(margin, y, usableWidth, 20, 2, 2, "F")
+      if (transaction.description && transaction.description !== "N/A") {
+        y += 5
+        doc.setFillColor(248, 250, 252)
+        doc.roundedRect(margin, y, usableWidth, 25, 2, 2, "F")
         doc.setTextColor(...colors.textMuted)
         doc.setFontSize(8)
         doc.setFont("helvetica", "bold")
-        doc.text("DESCRIPTION:", margin + 5, y + 7)
+        doc.text("TRANSACTION MEMO:", margin + 5, y + 8)
         doc.setTextColor(...colors.text)
-        doc.setFontSize(9)
+        doc.setFontSize(10)
         doc.setFont("helvetica", "italic")
-        doc.text(`"${transaction.description}"`, margin + 5, y + 14)
+        const splitMemo = doc.splitTextToSize(`"${transaction.description}"`, usableWidth - 10)
+        doc.text(splitMemo, margin + 5, y + 15)
+        y += 30
       }
 
       // === FOOTER ===

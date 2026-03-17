@@ -49,7 +49,7 @@ const Footer = () => {
                 <div className="h-8 w-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
                   <Phone className="w-4 h-4" />
                 </div>
-                +1 5705794455
+                +1 6077380470
               </div>
               <div className="flex items-center gap-3 group text-slate-600">
                 <div className="h-8 w-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
