@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     await user.save()
 
     // Create reset URL
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.primehaborbk.online'}/reset-password?token=${resetToken}&email=${email}`
+    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.corporateb.online'}/reset-password?token=${resetToken}&email=${email}`
 
     // Send email
     await sendPasswordResetEmail(
